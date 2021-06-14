@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Linking } from 'react-native';
 import theme from '../theme';
 import numeral from 'numeral';
 
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item, singleView }) => {
   return (
     <View style={styles.flexContainer}>
       <View style={styles.flexContainerTop}>
@@ -87,6 +87,13 @@ const RepositoryItem = ({ item }) => {
           <Text>{'Rating'}</Text>
         </View>
       </View>
+      {singleView &&
+        <View style={styles.flexContainer}>
+          <TouchableOpacity onPress={() => Linking.openURL(item.url)}>
+            <Text style={styles.languageText}>Open in GitHub</Text>
+          </TouchableOpacity>
+        </View>
+      }
     </View>
   );
 };
