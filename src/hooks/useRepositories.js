@@ -2,10 +2,10 @@ import { useQuery } from "@apollo/react-hooks";
 
 import { GET_REPOSITORIES } from "../graphql/queries";
 
-const useRepositories = (sort) => {
+const useRepositories = (sort, searchKeyword) => {
 
   let sortObject = null;
-  
+
   const createdAtDescObject = {
     orderBy: "CREATED_AT",
     orderDirection: "DESC"
@@ -31,6 +31,8 @@ const useRepositories = (sort) => {
     default:
       sortObject = createdAtDescObject;
   }
+
+  sortObject = { ...sortObject, searchKeyword };
 
   const { data } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: "cache-and-network",
