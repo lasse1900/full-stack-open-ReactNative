@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Linking } from 'react-native';
+import { useHistory } from 'react-router-native';
 import theme from '../theme';
 import numeral from 'numeral';
 
@@ -53,6 +54,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   }
 });
+
+export const TouchableRepositoryItem = ({ item }) => {
+  
+  const history = useHistory();
+
+  return (
+    <TouchableOpacity onPress={() => history.push(`/${item.id}`)}>
+      <RepositoryItem item={item} />
+    </TouchableOpacity>
+  );
+};
 
 const RepositoryItem = ({ item, singleView }) => {
   return (

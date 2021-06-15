@@ -1,45 +1,57 @@
-import React from 'react';
-import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, View, StyleSheet } from 'react-native';
 import useRepositories from '../hooks/useRepositories';
+import RNPickerSelect from "react-native-picker-select";
 
-import RepositoryItem from './RepositoryItem';
-import { useHistory } from 'react-router-dom';
+import TouchableRepositoryItem from './RepositoryItem';
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
-  },
+  }
 });
 
-export const RepositoryListContainer = ({ repositories }) => {
-  const history = useHistory();
-  const repositoryNodes = repositories.edges
-    ? repositories.edges.map(edge => edge.node)
-    : [];
+const ItemSeparator = () => <View style={styles.separator} />;
 
-  const ItemSeparator = () => <View style={styles.separator} />;
-
-  const onSelect = (id) => {
-    history.push(`/${id}`);
-  };
+export const RepositoryListContainer = (props) => {
+  const { repositories, sortOrder, setSortOrder } = props;
+  const repositoryNodes = repositories ? repositories.edges.map((edge) => edge.node) : [];
+  const renderItem = ({ item }) => <TouchableRepositoryItem item={item} />;
 
   return (
     <FlatList
+      ListHeaderComponent={
+        <RNPickerSelect
+          onValueChange={(value) => { setSortOrder(value); }}
+          value={sortOrder}
+          items={[
+            {
+              label: "Latest repositories",
+              value: "CREATED_AT_DESC",
+            },
+            {
+              label: "Highest rated repositories",
+              value: "RATING_AVERAGE_DESC",
+            },
+            {
+              label: "Lowest rated repositores",
+              value: "RATING_AVERAGE_ASC",
+            },
+          ]}
+        />
+      }
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) =>
-        <TouchableOpacity onPress={() => onSelect(item.id)}>
-          <RepositoryItem item={item} />
-        </TouchableOpacity>
-      }
+      renderItem={renderItem}
     />
   );
 };
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
+  const [sortOrder, setSortOrder] = useState("CREATED_AT_DESC");
+  const repositories = useRepositories(sortOrder);
 
-  return <RepositoryListContainer repositories={repositories} />;
+  return <RepositoryListContainer repositories={repositories} sortOrder={sortOrder} setSortOrder={setSortOrder} />;
 };
 
 export default RepositoryList;
