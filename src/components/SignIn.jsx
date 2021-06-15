@@ -11,7 +11,8 @@ import useSignIn from "../hooks/useSignIn";
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    padding: 15
+    padding: 15,
+    backgroundColor: '#e3e3e3'
   },
   textInput: {
     borderColor: theme.appBar.backgroundColor,
@@ -43,7 +44,7 @@ const validationSchema = yup.object().shape({
     .required('Username is required'),
   password: yup
     .string()
-    .min(5, 'Password must be at least 6 chars')
+    .min(5, 'Password must be at least 5 chars')
     .required('Password is required'),
 });
 
