@@ -23,7 +23,7 @@ export const RepositoryListContainer = (props) => {
   return (
     <FlatList
       ListHeaderComponent={
-        <div>
+        <>
           <Searchbar
             placeholder="Search"
             onChangeText={(value) => setFilter(value)}
@@ -52,7 +52,7 @@ export const RepositoryListContainer = (props) => {
           />
 
           <ItemSeparator />
-        </div>
+        </>
       }
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}

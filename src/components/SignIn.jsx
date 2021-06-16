@@ -80,22 +80,21 @@ const SignIn = () => {
   const [signIn] = useSignIn();
   const onSubmit = async (values) => {
     const { username, password } = values;
-    console.log('SignIn with credentials:', username, password);
     await signIn({ username, password });
   };
-    return <SignInContainer onSubmit={onSubmit} />;
-  };
+  return <SignInContainer onSubmit={onSubmit} />;
+};
 
-  export const SignInContainer = ({ onSubmit }) => {
-    return (
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-      </Formik>
-    );
-  };
+export const SignInContainer = ({ onSubmit }) => {
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+    </Formik>
+  );
+};
 
-  export default SignIn;
+export default SignIn;
